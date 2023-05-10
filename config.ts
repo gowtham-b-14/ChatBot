@@ -1,14 +1,22 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_STORAGE_BUCKET,
+  FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_APP_ID,
+  FIREBASE_PROJECT_ID,
+} from "@env";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyByS4eLmf3wD-qXy_51SNbXkbc8cy6Xhr4",
-  authDomain: "openai-auth-911e1.firebaseapp.com",
-  projectId: "openai-auth-911e1",
-  storageBucket: "openai-auth-911e1.appspot.com",
-  messagingSenderId: "112795452396",
-  appId: "1:112795452396:web:b44b39daa7d2256398b6c9",
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  projectId: FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+  appId: FIREBASE_APP_ID,
 };
 
 if (!firebase.apps.length) {
