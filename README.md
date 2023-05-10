@@ -2,6 +2,15 @@
 
 Build a chatbot using the OpenAI's Chat GPT API
 
+# Sample ScreenShots 
+
+![Screenshot_1683701602](https://github.com/gowtham-b-14/ChatBot/assets/63443309/dfb71129-2c68-4b79-9e57-94c0faa04013)
+![Screenshot_1683701618](https://github.com/gowtham-b-14/ChatBot/assets/63443309/b0bc6133-923a-4351-b95d-d8bfe8604247)
+![Screenshot_1683701709](https://github.com/gowtham-b-14/ChatBot/assets/63443309/750699fd-2bab-4ce3-84cb-c6082c0c18c3)
+![Screenshot_1683701918](https://github.com/gowtham-b-14/ChatBot/assets/63443309/ebe2f572-7b72-45f6-836d-aa77676bce67)
+
+
+
 ## Requirements
 
  - OpenAI module to use it's API.
