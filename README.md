@@ -5,6 +5,7 @@ Build a chatbot using the OpenAI's Chat GPT API
 # Sample ScreenShots 
 
 <img src="https://github.com/gowtham-b-14/ChatBot/assets/63443309/dfb71129-2c68-4b79-9e57-94c0faa04013" width="50%" height="100%" />
+<img src="https://github.com/gowtham-b-14/ChatBot/assets/63443309/737733e7-e780-404a-8e8c-79297032f36d" width="50%" height="100%" />
 <img src="https://github.com/gowtham-b-14/ChatBot/assets/63443309/b0bc6133-923a-4351-b95d-d8bfe8604247" width="50%" height="100%" />
 <img src="https://github.com/gowtham-b-14/ChatBot/assets/63443309/750699fd-2bab-4ce3-84cb-c6082c0c18c3" width="50%" height="100%"/>
 <img src="https://github.com/gowtham-b-14/ChatBot/assets/63443309/ebe2f572-7b72-45f6-836d-aa77676bce67" width="50%" height="100%"/>
