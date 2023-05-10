@@ -2,7 +2,7 @@
 
     build a chatbot using the OpenAI's Chat GPT API
 
-# Requirements
+## Requirements
 
      1.OpenAI module to use it's API.
 
@@ -10,9 +10,9 @@
 
      3.openAI API key.
      
-# Getting Started
+## Getting Started
 
-To get started using this application, please follow the steps below:
+   To get started using this application, please follow the steps below:
 
    1.Navigate to the directory where you have cloned this repository.
 
