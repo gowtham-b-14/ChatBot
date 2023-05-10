@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Formik } from "formik";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -13,10 +14,9 @@ import {
 import { firebase } from "../config";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootSatckParamList } from "../App";
+import { loginValidationSchema } from "../components/utils/ValidationSchemas";
 
 const LoginScreen = () => {
-  const [email,setEmail]=useState('')
-  const [password,setPassword]=useState('')
   const navigation =
     useNavigation<NativeStackNavigationProp<RootSatckParamList>>();
 
@@ -38,47 +38,75 @@ const LoginScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          style={[styles.input, styles.buttonOutline]}
-        />
+    <Formik
+      initialValues={{ email: "", password: "" }}
+      validationSchema={loginValidationSchema}
+      onSubmit={(values) => {
+        console.log("values", values);
+        handleLogin(values.email, values.password);
+      }}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        isValid,
+        setFieldTouched,
+        handleSubmit,
+      }) => (
+        <KeyboardAvoidingView style={styles.container}>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Email"
+              value={values.email}
+              style={[styles.input, styles.buttonOutline]}
+              onChangeText={handleChange("email")}
+              onBlur={() => setFieldTouched("email")}
+            />
+            {touched.email && errors.email && <Text>{errors.email}</Text>}
+            <TextInput
+              placeholder="Password"
+              value={values.password}
+              style={[styles.input, styles.buttonOutline]}
+              secureTextEntry
+              onChangeText={handleChange("password")}
+              onBlur={() => setFieldTouched("password")}
+            />
+            {touched.password && errors.password && (
+              <Text>{errors.password}</Text>
+            )}
+          </View>
 
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          style={[styles.input, styles.buttonOutline]}
-          secureTextEntry
-        />
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            handleLogin(email, password);
-          }}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("RegisterUser")}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Register</Text>
-        </TouchableOpacity>
-      </View>
-      <ImageBackground
-        source={{
-          uri: "https://miro.medium.com/v2/resize:fit:850/1*YCyvDskoLsj9T-cRJfXh0g.png",
-        }}
-        style={{ flex: 1, width: "100%" }}
-      ></ImageBackground>
-    </KeyboardAvoidingView>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                handleSubmit();
+              }}
+              style={[
+                styles.button,
+                { backgroundColor: isValid ? "blue" : "grey" },
+              ]}
+              disabled={!isValid}
+            >
+              <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("RegisterUser")}
+              style={[styles.button, styles.buttonOutline]}
+            >
+              <Text style={styles.buttonOutlineText}>Register</Text>
+            </TouchableOpacity>
+          </View>
+          <ImageBackground
+            source={{
+              uri: "https://miro.medium.com/v2/resize:fit:850/1*YCyvDskoLsj9T-cRJfXh0g.png",
+            }}
+            style={{ flex: 1, width: "100%" }}
+          ></ImageBackground>
+        </KeyboardAvoidingView>
+      )}
+    </Formik>
   );
 };
 

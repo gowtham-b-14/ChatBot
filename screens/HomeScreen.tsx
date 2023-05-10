@@ -45,7 +45,7 @@ const HomeScreen = ({ navigation }: Props) => {
 
       <KeyboardAvoidingView style={styles.container}>
         <Text style={styles.nametext}>
-          Welcome, {name.firstName} {name.lastName}
+          Welcome, {name.firstname} {name.lastname}
         </Text>
         <View style={styles.inputContainer}>
           <TextInput
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: "80%",
+    alignItems:"center"
   },
   buttonContainer: {
     width: "60%",

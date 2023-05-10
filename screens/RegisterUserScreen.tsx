@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -13,21 +13,18 @@ import {
 import { firebase } from "../config";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootSatckParamList } from "../App";
+import { signupValidationSchema } from "../components/utils/ValidationSchemas";
+import { Formik } from "formik";
 
 const RegisterUserScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-
   const navigation =
     useNavigation<NativeStackNavigationProp<RootSatckParamList>>();
 
   const handleSignUp = async (
     email: string,
     password: string,
-    firstName: string,
-    lastName: string
+    firstname: string,
+    lastname: string
   ) => {
     await firebase
       .auth()
@@ -39,8 +36,8 @@ const RegisterUserScreen = () => {
           .doc(firebase.auth().currentUser.uid)
           .set({
             email,
-            firstName,
-            lastName,
+            firstname,
+            lastname,
           });
         ToastAndroid.showWithGravity(
           "User created successfully!",
@@ -58,58 +55,101 @@ const RegisterUserScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <ImageBackground
-        source={{
-          uri: "https://media.istockphoto.com/id/1346050917/vector/creating-new-account-with-login-and-secure-password-registration-user-interface-users.jpg?s=170667a&w=0&k=20&c=Kyb8VNmMQD6He6Hlqg50Jllw09-ZcVSrg2rjrqti1Fw=",
-        }}
-        style={{ flex: 1, width: "100%" }}
-      ></ImageBackground>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          style={[styles.input, styles.buttonOutline]}
-        />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          style={[styles.input, styles.buttonOutline]}
-          secureTextEntry
-        />
-        <TextInput
-          placeholder="First Name"
-          value={firstName}
-          onChangeText={(text) => setFirstName(text)}
-          style={[styles.input, styles.buttonOutline]}
-        />
-        <TextInput
-          placeholder="Last Name"
-          value={lastName}
-          onChangeText={(text) => setLastName(text)}
-          style={[styles.input, styles.buttonOutline]}
-        />
-      </View>
+    <Formik
+      initialValues={{ email: "", password: "", firstname: "", lastname: "" }}
+      validationSchema={signupValidationSchema}
+      onSubmit={(values) => {
+        handleSignUp(
+          values.email,
+          values.password,
+          values.firstname,
+          values.lastname
+        );
+      }}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        isValid,
+        setFieldTouched,
+        handleSubmit,
+      }) => (
+        <KeyboardAvoidingView style={styles.container}>
+          <ImageBackground
+            source={{
+              uri: "https://media.istockphoto.com/id/1346050917/vector/creating-new-account-with-login-and-secure-password-registration-user-interface-users.jpg?s=170667a&w=0&k=20&c=Kyb8VNmMQD6He6Hlqg50Jllw09-ZcVSrg2rjrqti1Fw=",
+            }}
+            style={{ flex: 1, width: "100%" }}
+          ></ImageBackground>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Email"
+              value={values.email}
+              style={[styles.input, styles.buttonOutline]}
+              onChangeText={handleChange("email")}
+              onBlur={() => setFieldTouched("email")}
+            />
+            {touched.email && errors.email && <Text>{errors.email}</Text>}
+            <TextInput
+              placeholder="Password"
+              value={values.password}
+              style={[styles.input, styles.buttonOutline]}
+              secureTextEntry
+              onChangeText={handleChange("password")}
+              onBlur={() => setFieldTouched("password")}
+            />
+            {touched.password && errors.password && (
+              <Text>{errors.password}</Text>
+            )}
+            <TextInput
+              placeholder="First Name"
+              value={values.firstname}
+              style={[styles.input, styles.buttonOutline]}
+              onChangeText={handleChange("firstname")}
+              onBlur={() => setFieldTouched("firstname")}
+            />
+            {touched.firstname && errors.firstname && (
+              <Text>{errors.firstname}</Text>
+            )}
+            <TextInput
+              placeholder="Last Name"
+              value={values.lastname}
+              style={[styles.input, styles.buttonOutline]}
+              onChangeText={handleChange("lastname")}
+              onBlur={() => setFieldTouched("lastname")}
+            />
+            {touched.lastname && errors.lastname && (
+              <Text>{errors.lastname}</Text>
+            )}
+          </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            handleSignUp(email, password, firstName, lastName);
-          }}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Register</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Login")}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={{fontWeight:"bold"}}>Already have an account ? click here</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                handleSubmit();
+              }}
+              style={[
+                styles.button,
+                { backgroundColor: isValid ? "blue" : "grey" },
+              ]}
+              disabled={!isValid}
+            >
+              <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Login")}
+              style={[styles.button, styles.buttonOutline]}
+            >
+              <Text style={{ fontWeight: "bold" }}>
+                Already have an account ? click here
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      )}
+    </Formik>
   );
 };
 
